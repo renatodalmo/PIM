@@ -1,0 +1,219 @@
+﻿<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+
+
+<style>
+    .clsDatePicker {
+        z-index: 100000;
+    }
+</style>
+
+
+<script type="text/javascript">
+
+    function modalAlerta(msg) {
+        $('#divAlertas').html(msg);
+        $('#modalAlertas').modal({
+            keyboard: false
+        });
+        $('#modalAlertas').modal('show');
+    }
+
+    function erroForm(msg) {
+        $('#erroForm').html('<div class="alert alert-warning" role="alert">' + msg + '</div>');
+    }
+
+    function deleta(id) {
+        var confirmacao = true; //confirm("Deseja Realmente Excluir a Tarefa?");
+        if (confirmacao) {
+            $('#divTable').html('');
+            url = "@Html.Raw(ViewBag.baseUrl)/Home/Deletar";
+            $.post(url, {
+                id: id
+            }, function (json) {
+                $('#divTable').html(json[1]);
+                modalAlerta("Tarefa Deletada Com Sucesso");
+            }, "json");
+        }
+    }
+
+    function novo() {
+        $('#modal').modal({
+            keyboard: false
+        });
+        $('#modal').modal('show');
+        $('#ID').val("0");
+        $('#NOME').val("");
+        $('#DESCRICAO').val("");
+        $('#DT_PREVISTA').val("");
+        $('#DT_ENTREGA').val("");
+        $('#erroForm').html("");
+    }
+
+    function salva() {
+        var id = $('#ID').val();
+        var nome = $('#NOME').val();
+        var descricao = $('#DESCRICAO').val();
+        var dtPrevista = $('#DT_PREVISTA').val();
+        var dtEntrega = $('#DT_ENTREGA').val();
+
+        if ($.trim(nome) == "") {
+            erroForm("O nome é obrigatório!");
+            $('#NOME').focus();
+            return false;
+        }
+
+        if ($.trim(descricao) == "") {
+            erroForm("A descrição é obrigatória!");
+            $('#DESCRICAO').focus();
+            return false;
+        }
+
+        if ($.trim(dtPrevista) == "") {
+            erroForm("O Prazo de Entrega é Obrigatório!");
+            $('#DT_PREVISTA').focus();
+            return false;
+        }
+
+        $('#divTable').html('');
+
+        url = "@Html.Raw(ViewBag.baseUrl)/Home/Salva";
+
+        $.post(url, {
+            id: id,
+            nome: nome,
+            descricao: descricao,
+            dtPrevista: dtPrevista,
+            dtEntrega: dtEntrega
+        }, function (json) {
+            $('#divTable').html(json[1]);
+            $('#modal').modal('hide');
+            modalAlerta("Tarefa Salva Com Sucesso");
+        }, "json");
+    }
+
+    function edita(id) {
+
+        $('#erroForm').html("");
+
+        url = "@Html.Raw(ViewBag.baseUrl)/Home/Tarefa";
+
+        $.post(url, {
+            id: id
+        }, function (json) {
+            $('#modal').modal({
+                keyboard: false
+            });
+            $('#modal').modal('show');
+            $('#ID').val(json[0]);
+            $('#NOME').val(json[1]);
+            $('#DESCRICAO').val(json[2]);
+            $('#DT_PREVISTA').val(json[3]);
+            $('#DT_ENTREGA').val(json[4]);
+        }, "json");
+    }
+
+    function salvar() {
+
+    }
+
+</script>
+
+
+
+
+
+<h4>Tarefas</h4>
+
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Atenção!</strong> Clique em <i class="fas fa-plus"></i> para inserir uma nova tarefa, clique em <i class="fas fa-edit"></i> para editar ou <i class="far fa-trash-alt"></i> para excluir o registro.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<p align="right">
+    <button class="btn btn-success" onclick="return novo();"><i class="fas fa-plus"></i> Novo</button>
+</p>
+
+
+<div id="divTable">
+    @Html.Raw(ViewBag.table)
+</div>
+
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Tarefa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <input type="hidden" id="ID" value="0" />
+
+                <table width="100%" border="0">
+                    <tr>
+                        <td align="right"><strong>Disciplina: &nbsp;</strong></td>
+                        <td>
+                            <input type="text" class="form-control" id="NOME" placeholder="nome">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><strong>Tarefa: &nbsp;</strong></td>
+                        <td>
+                            <textarea class="form-control" id="DESCRICAO" rows="3"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><strong>Prazo de Entrega: &nbsp;</strong></td>
+                        <td>
+                            <input maxlength="10" data-toggle="datepicker" style="width : 130px;" type="text" class="form-control" id="DT_PREVISTA" placeholder="00/00/0000">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><strong>Conclusão: &nbsp;  </strong></td>
+                        <td>
+                            <input maxlength="10" data-toggle="datepicker" style="width : 130px;" type="text" class="form-control" id="DT_ENTREGA" placeholder="00/00/0000">
+                        </td>
+                    </tr>
+                </table>
+                <div id="erroForm"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>    Fechar</button>
+                <button type="button" class="btn btn-primary" onclick="return salva();"><i class="fas fa-save"></i> Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" id="modalAlertas" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <center>
+                        <div id="divAlertas"></div>
+                </center>
+            </div>
+            <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>    Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#DT_PREVISTA').datepicker({
+        uiLibrary: 'bootstrap4'
+    });
+
+    $('#DT_ENTREGA').datepicker({
+        uiLibrary: 'bootstrap4'
+    });
+</script>

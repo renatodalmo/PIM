@@ -1,0 +1,83 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+
+    <link rel="stylesheet" href="https://fengyuanchen.github.io/datepicker/css/datepicker.css">
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://fengyuanchen.github.io/datepicker/js/datepicker.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+    <script src="https://kit.fontawesome.com/89239c90d6.js" crossorigin="anonymous"></script>
+
+    <title>Gerenciador de Tarefas</title>
+
+    <style>
+        body {
+            padding: 0px;
+            background: #d0d0d0 url('../content/images/background.png') top center;
+        }
+    </style>
+</head>
+<body topmargin="0" leftmargin="0" rightmargin="0" bottommargin="0" marginwidth="0" marginheight="0" style="">
+
+
+    <table border="0" width="100%">
+        <tr style="background-color : darkslateblue; color: white;">
+            <td>
+                &nbsp;
+            </td>
+            <td width="1000" height="80">
+                <h3>
+                    <i class="fas fa-tasks"></i> Gerenciador de Tarefas
+                </h3>
+            </td>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                &nbsp;
+            </td>
+            <td width="1000" style="background-color : white;">
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
+            </td>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+        <tr style="background-color : darkslateblue; color: white;">
+            <td>
+                &nbsp;
+            </td>
+            <td width="1000">
+                <footer>
+                    <p>&copy; @DateTime.Now.Year - PIM VIII - Roberta Pereira Santos</p>
+                </footer>
+            </td>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+
+    
+</body>
+</html>

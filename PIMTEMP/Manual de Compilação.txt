@@ -1,0 +1,10 @@
+Requerimentos:
+ - Visual Studio 2019 / Framework 4 (ultima versão)
+ - Access Microsoft.ACE.OLEDB.12.0 Driver instalado, ou seja ter instalado o ACCESS 2013 ou o driver stand alone do executavel "AccessRuntime_x86_pt-br.exe" https://www.microsoft.com/pt-br/download/details.aspx?id=39358.
+ - Configurar a key stringConnection do Web.config com o local do arquivo de banco de dados Access que está incluso (database_PIM_v2.accdb). 
+
+
+
+
+
+
